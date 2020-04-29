@@ -29,13 +29,29 @@
               <div class="input-group-prepend">
                 <span class="input-group-text" id="inputGroup-sizing-default">Answer</span>
               </div>
-              <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+              <input id="answer-field" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
             </div>
+            <button type="button" class="btn btn-secondary btn-lg btn-block" onclick="doneWithProblem()">Done</button>
           </section>
       </article>
     </main>
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+
+      function doneWithProblem() {
+        let question = $('.question');
+        let problem = question.html().trim().replace('?', '').split('+');
+        let answer = problem.reduce((a, b) => parseInt(a, 10) + parseInt(b, 10));
+        let answerField = $('#answer-field');
+
+        if (answerField.val().toString() === answer.toString()) {
+          alert('Correct answer!');
+        } else {
+          alert('Incorrect answer!');
+        }
+      }
+    </script>
   </body>
 </html>
