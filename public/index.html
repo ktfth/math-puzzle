@@ -39,17 +39,50 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
     <script type="text/javascript">
+      function random(n) {
+        return Math.round(Math.random() * n);
+      }
+
+      function operations() {
+        return ['+', '-', '*', '/'];
+      }
+
+      function randomQuestion() {
+        let question = $('.question');
+        let a = Math.max(0, random(1000));
+        let b = Math.max(0, random(1000));
+        let operation = operations()[Math.max(0, random(operations().length - 1))];
+        question.html(a.toString() + operation + b.toString() + '?');
+      }
+
+      randomQuestion();
 
       function doneWithProblem() {
         let question = $('.question');
-        let problem = question.html().trim().replace('?', '').split('+');
-        let answer = problem.reduce((a, b) => parseInt(a, 10) + parseInt(b, 10));
+        let problem = question.html().trim().replace('?', '')
+        let answer = null;
+        if (problem.indexOf('+') > -1) {
+          problem = problem.split('+');
+          answer = problem.reduce((a, b) => parseInt(a, 10) + parseInt(b, 10));
+        } else if (problem.indexOf('-') > -1) {
+          problem = problem.split('-');
+          answer = problem.reduce((a, b) => parseInt(a, 10) - parseInt(b, 10));
+        } else if (problem.indexOf('*') > -1) {
+          problem = problem.split('*');
+          answer = problem.reduce((a, b) => parseInt(a, 10) * parseInt(b, 10));
+        } else if (problem.indexOf('/') > -1) {
+          problem = problem.split('/');
+          answer = problem.reduce((a, b) => parseInt(a, 10) / parseInt(b, 10));
+        }
         let answerField = $('#answer-field');
 
         if (answerField.val().toString() === answer.toString()) {
           alert('Correct answer!');
+          answerField.val('');
+          randomQuestion();
         } else {
           alert('Incorrect answer!');
+          // randomQuestion();
         }
       }
     </script>
